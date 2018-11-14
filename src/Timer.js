@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { padStart } from 'lodash'
+import { notify } from './helpers/notifications'
 
 class Timer extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      length: 20 * 60 * 1000,
+      // length: 20 * 60 * 1000,
+      completed: null,
+      length: 5 * 1000,
       start: null
     }
   }
@@ -18,6 +21,7 @@ class Timer extends Component {
       event.preventDefault()
 
       this.setState({
+        completed: null,
         start: Date.now()
       })
     }
@@ -37,6 +41,15 @@ class Timer extends Component {
     if (this.state.start) {
       const end = Number(this.state.start) + this.state.length
       const difference = (end - Number(now)) / 1000
+
+      if (difference <= 0) {
+        notify('Timer Complete')
+
+        this.setState({
+          completed: Date.now(),
+          start: null
+        })
+      }
 
       hours = Math.floor(difference / (60 * 60))
       minutes = Math.floor(difference / 60)

@@ -52,6 +52,7 @@
     "parser": "babel-eslint",
     "ignore": [
       "config",
+      "node_modules",
       "scripts",
       "src/app/registerServiceWorker.js",
       "src/**/*.test.js"

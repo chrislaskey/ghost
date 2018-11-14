@@ -9,3 +9,17 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+#app {
+  padding: 22px 0;
+}
+
+#draggable-top-bar {
+  height: 22px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  z-index: 100;
+  -webkit-app-region: drag;
+}

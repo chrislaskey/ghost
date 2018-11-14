@@ -29,7 +29,8 @@ class App extends Component {
 
   render () {
     return (
-      <div className='app'>
+      <div id='app'>
+        <div id='draggable-top-bar' />
         <Timer now={this.state.now} />
       </div>
     )
