@@ -13,6 +13,9 @@ function createWindow () {
   mainWindow.on('closed', function () { mainWindow = null })
 }
 
+app.commandLine.appendSwitch('disable-background-timer-throttling')
+app.commandLine.appendSwitch('disable-renderer-backgrounding')
+
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
