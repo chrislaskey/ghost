@@ -1,4 +1,6 @@
-### Setup
+## Setup
+
+### Electron
 
 Note: Setup directions based on the [Medium post from Kitze](https://medium.com/@kitze/%EF%B8%8F-from-react-to-an-electron-app-ready-for-production-a0468ecb1da3)
 
@@ -72,3 +74,32 @@ $ yarn electron-pack
 ```
 
 Once complete, the prebuilt application files are located in `dist` directory.
+
+### Developer Environment
+
+Add StandardJS linting rules:
+
+```
+yarn add standard
+```
+
+Update `package.json` with new section:
+
+```
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "config",
+      "scripts",
+      "src/app/registerServiceWorker.js",
+      "src/**/*.test.js"
+    ]
+  }
+```
+
+Add scripts to `package.json`:
+
+```
+"fix": ". ./.env && yarn standard --fix",
+"lint": ". ./.env && yarn standard"
+```

@@ -2,11 +2,14 @@
   "name": "ghost",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "homepage": "./",
   "dependencies": {
     "electron-is-dev": "^1.0.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "standard": "^12.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -15,7 +18,9 @@
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron-pack": "build -c.extraMetadata.main=build/electron.js",
-    "preelectron-pack": "yarn build"
+    "preelectron-pack": "yarn build",
+    "fix": ". ./.env && yarn standard --fix",
+    "lint": ". ./.env && yarn standard"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,10 +43,17 @@
       "build/**/*",
       "node_modules/**/*"
     ],
-    "directories":{
+    "directories": {
       "buildResources": "assets"
     }
   },
-  "main": "public/electron.js",
-  "homepage": "./"
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "config",
+      "scripts",
+      "src/app/registerServiceWorker.js",
+      "src/**/*.test.js"
+    ]
+  }
 }
