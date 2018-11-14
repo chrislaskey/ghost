@@ -1,44 +1,74 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Setup
 
-## Available Scripts
+Note: Setup directions based on the [Medium post from Kitze](https://medium.com/@kitze/%EF%B8%8F-from-react-to-an-electron-app-ready-for-production-a0468ecb1da3)
 
-In the project directory, you can run:
+Create react application:
 
-### `npm start`
+```
+npx create-react-app ghost
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Add electron:
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+```
+yarn add --dev concurrently electron electron-builder wait-on
+yarn add electron-is-dev
+```
 
-### `npm test`
+Copy [`electron.js`](https://gist.github.com/kitze/42bfc85e8f41ebe777609c250b183eec#file-electron-js) to `public/electron.js`.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Update entry point in `package.json`:
 
-### `npm run build`
+```
+"main": "public/electron.js"
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Add script to `package.json`:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```
+"electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\""
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Verify development version runs:
 
-### `npm run eject`
+```
+$ yarn electron-dev
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### Production Build
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Update `package.json`:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+"build": {
+  "appId": "com.ghost.electron",
+  "files": [
+    "build/**/*",
+    "node_modules/**/*"
+  ],
+  "directories":{
+    "buildResources": "assets"
+  }
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Add scripts to `package.json`:
 
-## Learn More
+```
+"electron-pack": "build -c.extraMetadata.main=build/electron.js",
+"preelectron-pack": "yarn build"
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Add homepage to `package.json`:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+"homepage": "./"
+```
+
+Build the production version:
+
+```
+$ yarn electron-pack
+```
+
+Once complete, the prebuilt application files are located in `dist` directory.
