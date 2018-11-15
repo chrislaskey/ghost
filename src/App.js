@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import './app/electron'
+import { clearBadge } from './helpers/electron'
 import Timer from './Timer'
 
 class App extends Component {
@@ -15,6 +17,8 @@ class App extends Component {
 
   componentDidMount () {
     const interval = setInterval(this.timer, 100)
+
+    clearBadge()
 
     this.setState({ interval: interval })
   }

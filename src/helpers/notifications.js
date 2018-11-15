@@ -1,5 +1,7 @@
-const isSupported = () => "Notification" in window
-const isGranted = (permission) => (permission || Notification.permission) === 'granted'
+import { focus } from '../helpers/electron'
+
+const isSupported = () => 'Notification' in window
+const isGranted = (permission) => (permission || window.Notification.permission) === 'granted'
 
 export const requestPermission = (callback) => {
   if (!isSupported()) {
@@ -18,7 +20,7 @@ export const requestPermission = (callback) => {
     return response('granted')
   }
 
-  return Notification.requestPermission().then(response)
+  return window.Notification.requestPermission().then(response)
 }
 
 export const notify = (title, options) => {
@@ -49,11 +51,9 @@ const sendNotification = (title, options) => {
     vibrate: [200, 100, 200]
   }
 
-  const instance = new Notification(title, {...defaultOptions, ...options})
+  const instance = new window.Notification(title, { ...defaultOptions, ...options })
 
-  instance.onclick = () => {
-    console.log('clicked')
-  }
+  instance.onclick = focus
 
   return instance
 }

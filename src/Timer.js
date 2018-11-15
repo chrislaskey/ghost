@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { padStart } from 'lodash'
 import { notify } from './helpers/notifications'
+import { incrementBadge } from './helpers/electron'
 
 class Timer extends Component {
   constructor (props) {
@@ -44,6 +45,7 @@ class Timer extends Component {
 
       if (difference <= 0) {
         notify('Timer Complete')
+        incrementBadge()
 
         this.setState({
           completed: Date.now(),
