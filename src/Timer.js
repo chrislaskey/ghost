@@ -8,9 +8,8 @@ class Timer extends Component {
     super(props)
 
     this.state = {
-      // length: 20 * 60 * 1000,
       completed: null,
-      length: 5 * 1000,
+      length: 20 * 60 * 1000,
       start: null
     }
   }
